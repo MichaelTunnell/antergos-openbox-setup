@@ -27,6 +27,8 @@ USER_NAME=$1
 DESTDIR=$2
 
 if [ "$USER_NAME" == "" ]; then
+  echo "Usage:"
+  echo "./install.sh username [rootdir]"
   exit 0
 fi
 

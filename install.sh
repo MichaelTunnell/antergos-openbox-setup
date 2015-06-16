@@ -1,93 +1,98 @@
-#!/bin/bash
-    
-srcdir = "/usr/share/antergos-openbox-setup"
-backdir = "/usr/share/antergos-openbox-setup/backup"
+#!/usr/bin/bash
 
-# Create backup directory structure
-mkdir -p ${backdir}/oblogout
-mkdir -p ${backdir}/openbox/pipemenus
-mkdir -p ${backdir}/plank/dock1/launchers
+# -*- coding: utf-8 -*-
+#
+#  install.sh
+#
+#  Copyright © 2013-2015 Antergos
+#
+#  This file is part of Antergos.
+#
+#  Antergos is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  Antergos is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with Antergos; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
 
-# Backup original files
-cp /etc/xdg/compton.conf ${backdir}
-cp /etc/xdg/conky.conf ${backdir}
-cp /etc/xdg/gtk-2.0/gtkfilechooser.ini ${backdir}
-cp /etc/xdg/.gtkrc-2.0 ${backdir}/gtkrc-2.0
-cp /etc/xdg/gtk-3.0/settings.ini ${backdir}/settings.ini
-cp /etc/xdg/nitrogen/nitrogen.cfg ${backdir}
-cp /etc/xdg/nitrogen/bg-saved.cfg ${backdir}
+USER_NAME=$1
+DESTDIR=$2
 
-cp /etc/oblogout.conf ${backdir}
-cp /etc/oblogout/cancel.svg ${backdir}/oblogout
-cp /etc/oblogout/lock.svg ${backdir}/oblogout
-cp /etc/oblogout/restart.svg ${backdir}/oblogout
-cp /etc/oblogout/suspend.svg ${backdir}/oblogout
-cp /etc/oblogout/hibernate.svg ${backdir}/oblogout
-cp /etc/oblogout/logout.svg ${backdir}/oblogout
-cp /etc/oblogout/shutdown.svg ${backdir}/oblogout
-cp /etc/oblogout/switch.svg ${backdir}/oblogout
+if [ "$USER_NAME" == "" ]; then
+  exit 0
+fi
 
-cp /etc/xdg/openbox/autostart ${backdir}/openbox
-cp /etc/xdg/openbox/menu.xml ${backdir}/openbox
-cp /etc/xdg/openbox/rc.xml ${backdir}/openbox
-cp /etc/xdg/openbox/pipemenus/obpipemenu-places ${backdir}/openbox/pipemenus
-cp /etc/xdg/openbox/pipemenus/obrecent.sh ${backdir}/openbox/pipemenus
+echo "Setting Antergos Openbox setup to user $USER_NAME"
 
-cp /etc/xdg/pcmanfm/pcmanfm.conf ${backdir}
-cp /etc/xdg/libfm/libfm.conf ${backdir}
+# All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
+SRCDIR = ${DESTDIR}/usr/share/antergos-openbox-setup
+DSTDIR = ${DESTDIR}/home/${USER_NAME}
+CFGDIR = ${DESTDIR}/home/${USER_NAME}/.config
 
-cp /etc/xdg/plank/dock1/settings ${backdir}/plank/dock1
-cp /etc/xdg/plank/dock1/launchers/chromium.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/gpicview.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/mousepad.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/pragha.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/gnome-mplayer.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/lxterminal.dockitem ${backdir}/plank/dock1/launchers
-cp /etc/xdg/plank/dock1/launchers/plank.dockitem ${backdir}/plank/dock1/launchers
+# Copy files
+cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
+cp ${SRCDIR}/xinitrc ${DSTDIR}/.xinitrc
 
-cp ${srcdir}/tint2rc /etc/xdg/tint2/tint2rc ${backdir}
-cp ${srcdir}/volumeicon /etc/xdg/volumeicon/volumeicon ${backdir}
-cp ${srcdir}/xinitrc /etc/X11/xinit/xinitrc ${backdir}
+mkdir -p ${CFGDIR}
+cp ${SRCDIR}/compton.conf ${CFGDIR}/compton.conf
+cp ${SRCDIR}/conky.conf ${CFGDIR}/conky.conf
 
-# Copy new versions
-cp ${srcdir}/compton.conf /etc/xdg/compton.conf
-cp ${srcdir}/conky.conf /etc/xdg/conky.conf
-cp ${srcdir}/gtkfilechooser.ini /etc/xdg/gtk-2.0/gtkfilechooser.ini
-cp ${srcdir}/gtkrc-2.0 /etc/xdg/.gtkrc-2.0
-cp ${srcdir}/settings.ini /etc/xdg/gtk-3.0
-cp ${srcdir}/nitrogen.cfg /etc/xdg/nitrogen/nitrogen.cfg
-cp ${srcdir}/bg-saved.cfg /etc/xdg/nitrogen/bg-saved.cfg
-   
-cp ${srcdir}/oblogout.conf /etc/oblogout.conf
-cp ${srcdir}/oblogout/cancel.svg /etc/oblogout/cancel.svg
-cp ${srcdir}/oblogout/lock.svg /etc/oblogout/lock.svg
-cp ${srcdir}/oblogout/restart.svg /etc/oblogout/restart.svg
-cp ${srcdir}/oblogout/suspend.svg /etc/oblogout/suspend.svg
-cp ${srcdir}/oblogout/hibernate.svg /etc/oblogout/hibernate.svg
-cp ${srcdir}/oblogout/logout.svg /etc/oblogout/logout.svg
-cp ${srcdir}/oblogout/shutdown.svg /etc/oblogout/shutdown.svg
-cp ${srcdir}/oblogout/switch.svg /etc/oblogout/switch.svg
+mkdir -p ${DSTDIR}/gtk-2.0
+cp ${SRCDIR}/gtkfilechooser.ini ${DSTDIR}/gtk-2.0/gtkfilechooser.ini
+cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
 
-cp ${srcdir}/openbox/autostart /etc/xdg/openbox/autostart
-cp ${srcdir}/openbox/menu.xml /etc/xdg/openbox/menu.xml
-cp ${srcdir}/openbox/rc.xml /etc/xdg/openbox/rc.xml
-cp ${srcdir}/openbox/pipemenus/obpipemenu-places /etc/xdg/openbox/pipemenus/obpipemenu-places
-cp ${srcdir}/openbox/pipemenus/obrecent.sh /etc/xdg/openbox/pipemenus/obrecent.sh
+mkdir -p ${DSTDIR}/gtk-3.0
+cp ${SRCDIR}/settings.ini ${DSTDIR}/gtk-3.0
 
-cp ${srcdir}/pacmanfm.conf /etc/xdg/pcmanfm/pcmanfm.conf
-cp ${srcdir}/libfm.conf /etc/xdg/libfm/libfm.conf
+mkdir -p ${CFGDIR}/nitrogen
+cp ${SRCDIR}/nitrogen.cfg ${CFGDIR}/nitrogen/nitrogen.cfg
+cp ${SRCDIR}/bg-saved.cfg ${CFGDIR}/nitrogen/bg-saved.cfg
 
-cp ${srcdir}/plank/dock1/settings /etc/xdg/plank/dock1/settings
-cp ${srcdir}/plank/dock1/launchers/chromium.dockitem /etc/xdg/plank/dock1/launchers/chromium.dockitem
-cp ${srcdir}/plank/dock1/launchers/gpicview.dockitem /etc/xdg/plank/dock1/launchers/gpicview.dockitem
-cp ${srcdir}/plank/dock1/launchers/mousepad.dockitem /etc/xdg/plank/dock1/launchers/mousepad.dockitem
-cp ${srcdir}/plank/dock1/launchers/pragha.dockitem /etc/xdg/plank/dock1/launchers/pragha.dockitem
-cp ${srcdir}/plank/dock1/launchers/gnome-mplayer.dockitem /etc/xdg/plank/dock1/launchers/gnome-mplayer.dockitem
-cp ${srcdir}/plank/dock1/launchers/lxterminal.dockitem /etc/xdg/plank/dock1/launchers/lxterminal.dockitem
-cp ${srcdir}/plank/dock1/launchers/plank.dockitem /etc/xdg/plank/dock1/launchers/plank.dockitem
+mkdir -p ${DESTDIR}/etc/oblogout
+cp ${SRCDIR}/oblogout.conf ${DESTDIR}/etc/oblogout.conf
+cp ${SRCDIR}/oblogout/cancel.svg ${DESTDIR}/etc/oblogout/cancel.svg
+cp ${SRCDIR}/oblogout/lock.svg ${DESTDIR}/etc/oblogout/lock.svg
+cp ${SRCDIR}/oblogout/restart.svg ${DESTDIR}/etc/oblogout/restart.svg
+cp ${SRCDIR}/oblogout/suspend.svg ${DESTDIR}/etc/oblogout/suspend.svg
+cp ${SRCDIR}/oblogout/hibernate.svg ${DESTDIR}/etc/oblogout/hibernate.svg
+cp ${SRCDIR}/oblogout/logout.svg ${DESTDIR}/etc/oblogout/logout.svg
+cp ${SRCDIR}/oblogout/shutdown.svg ${DESTDIR}/etc/oblogout/shutdown.svg
+cp ${SRCDIR}/oblogout/switch.svg ${DESTDIR}/etc/oblogout/switch.svg
 
-cp ${srcdir}/tint2rc /etc/xdg/tint2/tint2rc
-cp ${srcdir}/volumeicon /etc/xdg/volumeicon/volumeicon
-cp ${srcdir}/xinitrc /etc/X11/xinit/xinitrc
+mkdir -p ${CFGDIR}/openbox/pipemenus
+cp ${SRCDIR}/openbox/autostart ${CFGDIR}/openbox/autostart
+cp ${SRCDIR}/openbox/menu.xml ${CFGDIR}/openbox/menu.xml
+cp ${SRCDIR}/openbox/rc.xml ${CFGDIR}/openbox/rc.xml
+cp ${SRCDIR}/openbox/pipemenus/obpipemenu-places ${CFGDIR}/openbox/pipemenus/obpipemenu-places
+cp ${SRCDIR}/openbox/pipemenus/obrecent.sh ${CFGDIR}/openbox/pipemenus/obrecent.sh
 
-# Done!
+mkdir -p ${CFGDIR}/pcmanfm
+cp ${SRCDIR}/pacmanfm.conf ${CFGDIR}/pcmanfm/pcmanfm.conf
+mkdir -p ${CFGDIR}/libfm
+cp ${SRCDIR}/libfm.conf ${CFGDIR}/libfm/libfm.conf
+
+mkdir -p ${CFGDIR}/plank/dock1/launchers
+cp ${SRCDIR}/plank/dock1/settings ${CFGDIR}/plank/dock1/settings
+cp ${SRCDIR}/plank/dock1/launchers/chromium.dockitem ${CFGDIR}/plank/dock1/launchers/chromium.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/gpicview.dockitem ${CFGDIR}/plank/dock1/launchers/gpicview.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/mousepad.dockitem ${CFGDIR}/plank/dock1/launchers/mousepad.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/pragha.dockitem ${CFGDIR}/plank/dock1/launchers/pragha.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/gnome-mplayer.dockitem ${CFGDIR}/plank/dock1/launchers/gnome-mplayer.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/lxterminal.dockitem ${CFGDIR}/plank/dock1/launchers/lxterminal.dockitem
+cp ${SRCDIR}/plank/dock1/launchers/plank.dockitem ${CFGDIR}/plank/dock1/launchers/plank.dockitem
+
+mkdir -p ${CFGDIR}/tint2
+cp ${SRCDIR}/tint2rc ${CFGDIR}/tint2/tint2rc
+
+mkdir -p ${CFGDIR}/volumeicon
+cp ${SRCDIR}/volumeicon ${CFGDIR}/volumeicon/volumeicon
+
+chroot ${DESTDIR} chown -R ${USER_NAME}:users /home/${USER_NAME}

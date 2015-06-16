@@ -24,20 +24,19 @@
 #  MA 02110-1301, USA.
 
 USER_NAME=$1
-DESTDIR=$2
 
 if [ "$USER_NAME" == "" ]; then
   echo "Usage:"
-  echo "./install.sh username [rootdir]"
+  echo "./install.sh username"
   exit 0
 fi
 
 echo "Setting Antergos Openbox setup to user $USER_NAME"
 
 # All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
-SRCDIR = ${DESTDIR}/usr/share/antergos-openbox-setup
-DSTDIR = ${DESTDIR}/home/${USER_NAME}
-CFGDIR = ${DESTDIR}/home/${USER_NAME}/.config
+SRCDIR = /usr/share/antergos-openbox-setup
+DSTDIR = /home/${USER_NAME}
+CFGDIR = /home/${USER_NAME}/.config
 
 # Copy files
 cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
@@ -58,16 +57,16 @@ mkdir -p ${CFGDIR}/nitrogen
 cp ${SRCDIR}/nitrogen.cfg ${CFGDIR}/nitrogen/nitrogen.cfg
 cp ${SRCDIR}/bg-saved.cfg ${CFGDIR}/nitrogen/bg-saved.cfg
 
-mkdir -p ${DESTDIR}/etc/oblogout
-cp ${SRCDIR}/oblogout.conf ${DESTDIR}/etc/oblogout.conf
-cp ${SRCDIR}/oblogout/cancel.svg ${DESTDIR}/etc/oblogout/cancel.svg
-cp ${SRCDIR}/oblogout/lock.svg ${DESTDIR}/etc/oblogout/lock.svg
-cp ${SRCDIR}/oblogout/restart.svg ${DESTDIR}/etc/oblogout/restart.svg
-cp ${SRCDIR}/oblogout/suspend.svg ${DESTDIR}/etc/oblogout/suspend.svg
-cp ${SRCDIR}/oblogout/hibernate.svg ${DESTDIR}/etc/oblogout/hibernate.svg
-cp ${SRCDIR}/oblogout/logout.svg ${DESTDIR}/etc/oblogout/logout.svg
-cp ${SRCDIR}/oblogout/shutdown.svg ${DESTDIR}/etc/oblogout/shutdown.svg
-cp ${SRCDIR}/oblogout/switch.svg ${DESTDIR}/etc/oblogout/switch.svg
+mkdir -p /etc/oblogout
+cp ${SRCDIR}/oblogout.conf /etc/oblogout.conf
+cp ${SRCDIR}/oblogout/cancel.svg /etc/oblogout/cancel.svg
+cp ${SRCDIR}/oblogout/lock.svg /etc/oblogout/lock.svg
+cp ${SRCDIR}/oblogout/restart.svg /etc/oblogout/restart.svg
+cp ${SRCDIR}/oblogout/suspend.svg /etc/oblogout/suspend.svg
+cp ${SRCDIR}/oblogout/hibernate.svg /etc/oblogout/hibernate.svg
+cp ${SRCDIR}/oblogout/logout.svg /etc/oblogout/logout.svg
+cp ${SRCDIR}/oblogout/shutdown.svg /etc/oblogout/shutdown.svg
+cp ${SRCDIR}/oblogout/switch.svg /etc/oblogout/switch.svg
 
 mkdir -p ${CFGDIR}/openbox/pipemenus
 cp ${SRCDIR}/openbox/autostart ${CFGDIR}/openbox/autostart
@@ -78,6 +77,7 @@ cp ${SRCDIR}/openbox/pipemenus/obrecent.sh ${CFGDIR}/openbox/pipemenus/obrecent.
 
 mkdir -p ${CFGDIR}/pcmanfm
 cp ${SRCDIR}/pacmanfm.conf ${CFGDIR}/pcmanfm/pcmanfm.conf
+
 mkdir -p ${CFGDIR}/libfm
 cp ${SRCDIR}/libfm.conf ${CFGDIR}/libfm/libfm.conf
 
@@ -97,4 +97,4 @@ cp ${SRCDIR}/tint2rc ${CFGDIR}/tint2/tint2rc
 mkdir -p ${CFGDIR}/volumeicon
 cp ${SRCDIR}/volumeicon ${CFGDIR}/volumeicon/volumeicon
 
-chroot ${DESTDIR} chown -R ${USER_NAME}:users /home/${USER_NAME}
+chown -R ${USER_NAME}:users /home/${USER_NAME}

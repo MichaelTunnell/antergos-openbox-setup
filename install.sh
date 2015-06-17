@@ -34,9 +34,9 @@ fi
 echo "Setting Antergos Openbox setup to user $USER_NAME"
 
 # All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
-SRCDIR = /usr/share/antergos-openbox-setup
-DSTDIR = /home/${USER_NAME}
-CFGDIR = /home/${USER_NAME}/.config
+SRCDIR=/usr/share/antergos-openbox-setup
+DSTDIR=/home/${USER_NAME}
+CFGDIR=/home/${USER_NAME}/.config
 
 # Copy files
 cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
@@ -76,7 +76,7 @@ cp ${SRCDIR}/openbox/pipemenus/obpipemenu-places ${CFGDIR}/openbox/pipemenus/obp
 cp ${SRCDIR}/openbox/pipemenus/obrecent.sh ${CFGDIR}/openbox/pipemenus/obrecent.sh
 
 mkdir -p ${CFGDIR}/pcmanfm
-cp ${SRCDIR}/pacmanfm.conf ${CFGDIR}/pcmanfm/pcmanfm.conf
+cp ${SRCDIR}/pcmanfm.conf ${CFGDIR}/pcmanfm/pcmanfm.conf
 
 mkdir -p ${CFGDIR}/libfm
 cp ${SRCDIR}/libfm.conf ${CFGDIR}/libfm/libfm.conf

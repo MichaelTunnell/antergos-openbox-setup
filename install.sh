@@ -75,12 +75,6 @@ cp ${SRCDIR}/openbox/rc.xml ${CFGDIR}/openbox/rc.xml
 cp ${SRCDIR}/openbox/pipemenus/obpipemenu-places ${CFGDIR}/openbox/pipemenus/obpipemenu-places
 cp ${SRCDIR}/openbox/pipemenus/obrecent.sh ${CFGDIR}/openbox/pipemenus/obrecent.sh
 
-mkdir -p ${CFGDIR}/pcmanfm
-cp ${SRCDIR}/pcmanfm.conf ${CFGDIR}/pcmanfm/pcmanfm.conf
-
-mkdir -p ${CFGDIR}/libfm
-cp ${SRCDIR}/libfm.conf ${CFGDIR}/libfm/libfm.conf
-
 mkdir -p ${CFGDIR}/plank/dock1/launchers
 cp ${SRCDIR}/plank/dock1/settings ${CFGDIR}/plank/dock1/settings
 cp ${SRCDIR}/plank/dock1/launchers/chromium.dockitem ${CFGDIR}/plank/dock1/launchers/chromium.dockitem

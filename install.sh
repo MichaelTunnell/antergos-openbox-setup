@@ -37,6 +37,7 @@ echo "Setting Antergos Openbox setup to user $USER_NAME"
 SRCDIR=/usr/share/antergos-openbox-setup
 DSTDIR=/home/${USER_NAME}
 CFGDIR=/home/${USER_NAME}/.config
+OBLOGOUT_THEME_DIR=/usr/share/themes/Numix/oblogout
 
 # Copy files
 cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
@@ -57,16 +58,16 @@ mkdir -p ${CFGDIR}/nitrogen
 cp ${SRCDIR}/nitrogen.cfg ${CFGDIR}/nitrogen/nitrogen.cfg
 cp ${SRCDIR}/bg-saved.cfg ${CFGDIR}/nitrogen/bg-saved.cfg
 
-mkdir -p /etc/oblogout
+mkdir -p ${OBLOGOUT_THEME_DIR}
 cp ${SRCDIR}/oblogout.conf /etc/oblogout.conf
-cp ${SRCDIR}/oblogout/cancel.svg /etc/oblogout/cancel.svg
-cp ${SRCDIR}/oblogout/lock.svg /etc/oblogout/lock.svg
-cp ${SRCDIR}/oblogout/restart.svg /etc/oblogout/restart.svg
-cp ${SRCDIR}/oblogout/suspend.svg /etc/oblogout/suspend.svg
-cp ${SRCDIR}/oblogout/hibernate.svg /etc/oblogout/hibernate.svg
-cp ${SRCDIR}/oblogout/logout.svg /etc/oblogout/logout.svg
-cp ${SRCDIR}/oblogout/shutdown.svg /etc/oblogout/shutdown.svg
-cp ${SRCDIR}/oblogout/switch.svg /etc/oblogout/switch.svg
+cp ${SRCDIR}/oblogout/cancel.svg ${OBLOGOUT_THEME_DIR}/cancel.svg
+cp ${SRCDIR}/oblogout/lock.svg ${OBLOGOUT_THEME_DIR}/lock.svg
+cp ${SRCDIR}/oblogout/restart.svg ${OBLOGOUT_THEME_DIR}/restart.svg
+cp ${SRCDIR}/oblogout/suspend.svg ${OBLOGOUT_THEME_DIR}/suspend.svg
+cp ${SRCDIR}/oblogout/hibernate.svg ${OBLOGOUT_THEME_DIR}/hibernate.svg
+cp ${SRCDIR}/oblogout/logout.svg ${OBLOGOUT_THEME_DIR}/logout.svg
+cp ${SRCDIR}/oblogout/shutdown.svg ${OBLOGOUT_THEME_DIR}/shutdown.svg
+cp ${SRCDIR}/oblogout/switch.svg ${OBLOGOUT_THEME_DIR}/switch.svg
 
 mkdir -p ${CFGDIR}/openbox/pipemenus
 cp ${SRCDIR}/openbox/autostart ${CFGDIR}/openbox/autostart

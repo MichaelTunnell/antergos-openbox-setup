@@ -47,12 +47,13 @@ mkdir -p ${CFGDIR}
 cp ${SRCDIR}/compton.conf ${CFGDIR}/compton.conf
 cp ${SRCDIR}/conky.conf ${CFGDIR}/conky.conf
 
-mkdir -p ${DSTDIR}/gtk-2.0
-cp ${SRCDIR}/gtkfilechooser.ini ${DSTDIR}/gtk-2.0/gtkfilechooser.ini
 cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
 
-mkdir -p ${DSTDIR}/gtk-3.0
-cp ${SRCDIR}/settings.ini ${DSTDIR}/gtk-3.0
+mkdir -p ${CFGDIR}/gtk-2.0
+cp ${SRCDIR}/gtkfilechooser.ini ${CFGDIR}/gtk-2.0/gtkfilechooser.ini
+
+mkdir -p ${CFGDIR}/gtk-3.0
+cp ${SRCDIR}/settings.ini ${CFGDIR}/gtk-3.0/settings.ini
 
 mkdir -p ${CFGDIR}/nitrogen
 cp ${SRCDIR}/nitrogen.cfg ${CFGDIR}/nitrogen/nitrogen.cfg

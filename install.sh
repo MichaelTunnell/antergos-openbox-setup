@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-
 # -*- coding: utf-8 -*-
 #
 #  install.sh
@@ -23,74 +22,53 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 
-USER_NAME=$1
+_ANT_USERNAME="${1}"
+_ANT_NO_OVERWRITE="${2}"
 
-if [ "$USER_NAME" == "" ]; then
-  echo "Usage:"
-  echo "./install.sh username"
-  exit 0
+if [[ -z "${_ANT_USERNAME}" ]]; then
+	echo "Usage:"
+	echo "./install.sh username"
+	exit 0
 fi
 
-echo "Setting Antergos Openbox setup to user $USER_NAME"
-
 # All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
-SRCDIR=/usr/share/antergos-openbox-setup
-DSTDIR=/home/${USER_NAME}
-CFGDIR=/home/${USER_NAME}/.config
-OBLOGOUT_THEME_DIR=/usr/share/themes/Numix/oblogout
+_ANT_SRCDIR='/usr/share/antergos-openbox-setup'
+_ANT_TMP_DIR='/tmp/.antergos-openbox-setup'
+
+if [[ -z "${_ANT_NO_OVERWRITE}" ]]; then
+	echo "Applying Antergos Openbox configuration for default, root, and the following user: ${_ANT_USERNAME}."
+	_ANT_DSTDIR="/home/${_ANT_USERNAME}"
+else
+	echo "Applying Antergos Openbox configuration for default and root. Skipping the following user: ${_ANT_USERNAME}."
+fi
+
+# Make a temp copy of files
+mkdir "${_ANT_TMP_DIR}"
+cp -R -t "${_ANT_TMP_DIR}" "${_ANT_SRCDIR}/{etc,home,usr}"
+
+# Create root and skel directories
+mkdir "${_ANT_TMP_DIR}/root"
+mkdir "${_ANT_TMP_DIR}/etc/skel"
+
+# Copy config files for root and skel
+cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/root"
+cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/etc/skel"
+
+if [[ -n "${_ANT_DSTDIR}" ]]; then
+	# Rename user's home directory in our temp files
+	mv "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/home/${_ANT_USERNAME}"
+else
+	# Not overwriting so remove home directory from our temp files.
+	rm -rf "${_ANT_TMP_DIR:?}/home"
+fi
 
 # Copy files
-cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
-cp ${SRCDIR}/xinitrc ${DSTDIR}/.xinitrc
+for _ANT_DIR in "${_ANT_TMP_DIR}"/*
+do
+	[[ -n "${_ANT_DIR}" ]] && [[ -d "${_ANT_DIR}" ]] && cp -R "${_ANT_DIR}" /
+done
 
-mkdir -p ${CFGDIR}
-cp ${SRCDIR}/compton.conf ${CFGDIR}/compton.conf
-cp ${SRCDIR}/conky.conf ${CFGDIR}/conky.conf
-
-cp ${SRCDIR}/gtkrc-2.0 ${DSTDIR}/.gtkrc-2.0
-
-mkdir -p ${CFGDIR}/gtk-2.0
-cp ${SRCDIR}/gtkfilechooser.ini ${CFGDIR}/gtk-2.0/gtkfilechooser.ini
-
-mkdir -p ${CFGDIR}/gtk-3.0
-cp ${SRCDIR}/settings.ini ${CFGDIR}/gtk-3.0/settings.ini
-
-mkdir -p ${CFGDIR}/nitrogen
-cp ${SRCDIR}/nitrogen.cfg ${CFGDIR}/nitrogen/nitrogen.cfg
-cp ${SRCDIR}/bg-saved.cfg ${CFGDIR}/nitrogen/bg-saved.cfg
-
-mkdir -p ${OBLOGOUT_THEME_DIR}
-cp ${SRCDIR}/oblogout.conf /etc/oblogout.conf
-cp ${SRCDIR}/oblogout/cancel.svg ${OBLOGOUT_THEME_DIR}/cancel.svg
-cp ${SRCDIR}/oblogout/lock.svg ${OBLOGOUT_THEME_DIR}/lock.svg
-cp ${SRCDIR}/oblogout/restart.svg ${OBLOGOUT_THEME_DIR}/restart.svg
-cp ${SRCDIR}/oblogout/suspend.svg ${OBLOGOUT_THEME_DIR}/suspend.svg
-cp ${SRCDIR}/oblogout/hibernate.svg ${OBLOGOUT_THEME_DIR}/hibernate.svg
-cp ${SRCDIR}/oblogout/logout.svg ${OBLOGOUT_THEME_DIR}/logout.svg
-cp ${SRCDIR}/oblogout/shutdown.svg ${OBLOGOUT_THEME_DIR}/shutdown.svg
-cp ${SRCDIR}/oblogout/switch.svg ${OBLOGOUT_THEME_DIR}/switch.svg
-
-mkdir -p ${CFGDIR}/openbox/pipemenus
-cp ${SRCDIR}/openbox/autostart ${CFGDIR}/openbox/autostart
-cp ${SRCDIR}/openbox/menu.xml ${CFGDIR}/openbox/menu.xml
-cp ${SRCDIR}/openbox/rc.xml ${CFGDIR}/openbox/rc.xml
-cp ${SRCDIR}/openbox/pipemenus/obpipemenu-places ${CFGDIR}/openbox/pipemenus/obpipemenu-places
-cp ${SRCDIR}/openbox/pipemenus/obrecent.sh ${CFGDIR}/openbox/pipemenus/obrecent.sh
-
-mkdir -p ${CFGDIR}/plank/dock1/launchers
-cp ${SRCDIR}/plank/dock1/settings ${CFGDIR}/plank/dock1/settings
-cp ${SRCDIR}/plank/dock1/launchers/chromium.dockitem ${CFGDIR}/plank/dock1/launchers/chromium.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/gpicview.dockitem ${CFGDIR}/plank/dock1/launchers/gpicview.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/mousepad.dockitem ${CFGDIR}/plank/dock1/launchers/mousepad.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/pragha.dockitem ${CFGDIR}/plank/dock1/launchers/pragha.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/gnome-mplayer.dockitem ${CFGDIR}/plank/dock1/launchers/gnome-mplayer.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/lxterminal.dockitem ${CFGDIR}/plank/dock1/launchers/lxterminal.dockitem
-cp ${SRCDIR}/plank/dock1/launchers/plank.dockitem ${CFGDIR}/plank/dock1/launchers/plank.dockitem
-
-mkdir -p ${CFGDIR}/tint2
-cp ${SRCDIR}/tint2rc ${CFGDIR}/tint2/tint2rc
-
-mkdir -p ${CFGDIR}/volumeicon
-cp ${SRCDIR}/volumeicon ${CFGDIR}/volumeicon/volumeicon
-
-chown -R ${USER_NAME}:users /home/${USER_NAME}
+if [[ -n "${_ANT_DSTDIR}" ]]; then
+	# Fix permissions
+	chown -R "${USER_NAME}:users" "/home/${USER_NAME}"
+fi

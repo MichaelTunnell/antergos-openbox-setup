@@ -3,7 +3,7 @@
 #
 #  install.sh
 #
-#  Copyright © 2013-2015 Antergos
+#  Copyright © 2013-2016 Antergos
 #
 #  This file is part of Antergos.
 #
@@ -32,7 +32,7 @@ if [[ -z "${_ANT_USERNAME}" ]]; then
 fi
 
 # All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
-_ANT_SRCDIR='/usr/share/antergos-openbox-setup'
+_ANT_SRC_DIR='/usr/share/antergos-openbox-setup'
 _ANT_TMP_DIR='/tmp/.antergos-openbox-setup'
 
 if [[ -z "${_ANT_NO_OVERWRITE}" ]]; then
@@ -44,11 +44,11 @@ fi
 
 # Make a temp copy of files
 mkdir "${_ANT_TMP_DIR}"
-cp -R -t "${_ANT_TMP_DIR}" "${_ANT_SRCDIR}/{etc,home,usr}"
+cp -R -t "${_ANT_TMP_DIR}" "${_ANT_SRC_DIR}/{etc,home,usr}"
 
 # Create root and skel directories
-mkdir "${_ANT_TMP_DIR}/root"
-mkdir "${_ANT_TMP_DIR}/etc/skel"
+mkdir -p "${_ANT_TMP_DIR}/root"
+mkdir -p "${_ANT_TMP_DIR}/etc/skel"
 
 # Copy config files for root and skel
 cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/root"

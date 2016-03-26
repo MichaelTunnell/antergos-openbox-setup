@@ -37,7 +37,7 @@ _ANT_TMP_DIR='/tmp/.antergos-openbox-setup'
 
 if [[ -z "${_ANT_NO_OVERWRITE}" ]]; then
 	echo "Applying Antergos Openbox configuration for default, root, and the following user: ${_ANT_USERNAME}."
-	_ANT_DSTDIR="/home/${_ANT_USERNAME}"
+	_ANT_DST_DIR="/home/${_ANT_USERNAME}"
 else
 	echo "Applying Antergos Openbox configuration for default and root. Skipping the following user: ${_ANT_USERNAME}."
 fi
@@ -54,7 +54,7 @@ mkdir -p "${_ANT_TMP_DIR}/etc/skel"
 cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/root"
 cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/etc/skel"
 
-if [[ -n "${_ANT_DSTDIR}" ]]; then
+if [[ -n "${_ANT_DST_DIR}" ]]; then
 	# Rename user's home directory in our temp files
 	mv "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/home/${_ANT_USERNAME}"
 else
@@ -68,7 +68,7 @@ do
 	[[ -n "${_ANT_DIR}" ]] && [[ -d "${_ANT_DIR}" ]] && cp -R "${_ANT_DIR}" /
 done
 
-if [[ -n "${_ANT_DSTDIR}" ]]; then
+if [[ -n "${_ANT_DST_DIR}" ]]; then
 	# Fix permissions
 	chown -R "${USER_NAME}:users" "/home/${USER_NAME}"
 fi

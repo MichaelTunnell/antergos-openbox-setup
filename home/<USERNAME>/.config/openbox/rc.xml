@@ -320,7 +320,7 @@
     </keybind>
     <keybind key="W-f">
       <action name="Execute">
-        <command>thunar</command>
+        <command>pcmanfm</command>
         <startupnotify>
           <enabled>yes</enabled>
           <name>File Manager</name>

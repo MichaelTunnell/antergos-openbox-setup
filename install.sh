@@ -72,3 +72,6 @@ if [[ -n "${_ANT_DST_DIR}" ]]; then
 	# Fix permissions
 	chown -R "${USER_NAME}:users" "/home/${USER_NAME}"
 fi
+
+# Apply gsettings
+glib-compile-schemas /usr/share/glib-2.0/schemas

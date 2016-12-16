@@ -31,9 +31,8 @@ if [[ -z "${_ANT_USERNAME}" ]]; then
 	exit 0
 fi
 
-# All necessary files are in /DESTDIR/usr/share/antergos-openbox-setup
+# All necessary files are in /usr/share/antergos-openbox-setup
 _ANT_SRC_DIR='/usr/share/antergos-openbox-setup'
-_ANT_TMP_DIR='/tmp/.antergos-openbox-setup'
 
 if [[ -z "${_ANT_NO_OVERWRITE}" ]]; then
 	echo "Applying Antergos Openbox configuration for default, root, and the following user: ${_ANT_USERNAME}."
@@ -42,35 +41,22 @@ else
 	echo "Applying Antergos Openbox configuration for default and root. Skipping the following user: ${_ANT_USERNAME}."
 fi
 
-# Make a temp copy of files
-mkdir "${_ANT_TMP_DIR}"
-cp -R -t "${_ANT_TMP_DIR}" "${_ANT_SRC_DIR}/{etc,home,usr}"
-
-# Create root and skel directories
-mkdir -p "${_ANT_TMP_DIR}/root"
-mkdir -p "${_ANT_TMP_DIR}/etc/skel"
-
 # Copy config files for root and skel
-cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/root"
-cp -R "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/etc/skel"
+cp -R "${_ANT_SRC_DIR}/home/user" "${_ANT_TMP_DIR}/root"
+cp -R "${_ANT_SRC_DIR}/home/user" "${_ANT_TMP_DIR}/etc/skel"
 
 if [[ -n "${_ANT_DST_DIR}" ]]; then
-	# Rename user's home directory in our temp files
-	mv "${_ANT_TMP_DIR}/home/<USERNAME>" "${_ANT_TMP_DIR}/home/${_ANT_USERNAME}"
-else
-	# Not overwriting so remove home directory from our temp files.
-	rm -rf "${_ANT_TMP_DIR:?}/home"
+	# Copy home files to user's folder
+	cp -R "${_ANT_SRC_DIR}/home/user" "${_ANT_DST_DIR}"
 fi
 
-# Copy files
-for _ANT_DIR in "${_ANT_TMP_DIR}"/*
-do
-	[[ -n "${_ANT_DIR}" ]] && [[ -d "${_ANT_DIR}" ]] && cp -R "${_ANT_DIR}" /
-done
+# Copy global files (/etc /usr)
+cp -R "${_ANT_SRC_DIR}/etc" /etc
+cp -R "${_ANT_SRC_DIR}/usr" /usr
 
 if [[ -n "${_ANT_DST_DIR}" ]]; then
 	# Fix permissions
-	chown -R "${USER_NAME}:users" "/home/${USER_NAME}"
+	chown -R "${_ANT_USERNAME}:users" "${_ANT_DST_DIR}"
 fi
 
 # Apply gsettings
